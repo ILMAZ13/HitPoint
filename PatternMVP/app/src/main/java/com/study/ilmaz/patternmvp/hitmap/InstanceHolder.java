@@ -4,6 +4,7 @@ package com.study.ilmaz.patternmvp.hitmap;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -14,6 +15,7 @@ import com.study.ilmaz.patternmvp.hitmap.views.TouchDetectView;
 
 public class InstanceHolder {
     private static final InstanceHolder ourInstance = new InstanceHolder();
+    private Painter painter;
     private Application.ActivityLifecycleCallbacks lifecycleCallbacks;
     private boolean isFreeze = false;
 
@@ -22,6 +24,7 @@ public class InstanceHolder {
     }
 
     private InstanceHolder() {
+        painter = new Painter();
     }
 
     public boolean isFreeze() {
@@ -64,7 +67,10 @@ public class InstanceHolder {
 
                 @Override
                 public void onActivityPaused(Activity activity) {
-
+                    CheckPermissionService checkPermissionService = new CheckPermissionService(activity);
+                    if (checkPermissionService.checkPermissionsStorage()) {
+                        painter.takeScreenshot(activity);
+                    }
                 }
 
                 @Override
@@ -84,6 +90,10 @@ public class InstanceHolder {
             };
         }
         return lifecycleCallbacks;
+    }
+
+    public void addTouch(MotionEvent motionEvent){
+        painter.dispatchTouchEvent(motionEvent);
     }
 
 }

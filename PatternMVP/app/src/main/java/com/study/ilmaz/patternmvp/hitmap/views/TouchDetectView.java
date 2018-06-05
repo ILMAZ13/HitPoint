@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.study.ilmaz.patternmvp.hitmap.InstanceHolder;
+
 public class TouchDetectView extends FrameLayout {
     public TouchDetectView(@NonNull Context context) {
         super(context);
@@ -23,7 +25,7 @@ public class TouchDetectView extends FrameLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-//        Toast.makeText(getContext(), "Dispatch touch event", Toast.LENGTH_SHORT).show();
+        InstanceHolder.getInstance().addTouch(ev);
         return super.dispatchTouchEvent(ev);
     }
 }

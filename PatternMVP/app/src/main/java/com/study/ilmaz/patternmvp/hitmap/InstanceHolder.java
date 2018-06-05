@@ -15,7 +15,7 @@ import com.study.ilmaz.patternmvp.hitmap.views.TouchDetectView;
 
 public class InstanceHolder {
     private static final InstanceHolder ourInstance = new InstanceHolder();
-    private Painter painter;
+    private PainterInt painter;
     private Application.ActivityLifecycleCallbacks lifecycleCallbacks;
     private boolean isFreeze = false;
 
@@ -92,7 +92,7 @@ public class InstanceHolder {
         return lifecycleCallbacks;
     }
 
-    public void addTouch(MotionEvent motionEvent){
+    public void addTouch(MotionEvent motionEvent) {
         painter.dispatchTouchEvent(motionEvent);
     }
 

@@ -1,4 +1,4 @@
-package com.study.ilmaz.patternmvp.hitmap.views;
+package ru.hitpoint.lib.hitpoint.views;
 
 
 import android.app.Activity;
@@ -9,12 +9,13 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.view.animation.TranslateAnimation;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.study.ilmaz.patternmvp.hitmap.InstanceHolder;
-import com.study.ilmaz.patternmvp.hitmap.animations.MyTranslateAnimation;
+import ru.hitpoint.lib.hitpoint.InstanceHolder;
+import ru.hitpoint.lib.hitpoint.animations.MyTranslateAnimation;
 
-public class FloatingButton extends FloatingActionButton {
+public class    FloatingButton extends FloatingActionButton {
     private float dX;
     private float dY;
     private int lastAction;

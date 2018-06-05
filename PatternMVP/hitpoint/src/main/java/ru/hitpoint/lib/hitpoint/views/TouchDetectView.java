@@ -1,4 +1,4 @@
-package com.study.ilmaz.patternmvp.hitmap.views;
+package ru.hitpoint.lib.hitpoint.views;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -6,9 +6,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import com.study.ilmaz.patternmvp.hitmap.InstanceHolder;
+import ru.hitpoint.lib.hitpoint.InstanceHolder;
 
 public class TouchDetectView extends FrameLayout {
     public TouchDetectView(@NonNull Context context) {

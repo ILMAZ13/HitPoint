@@ -1,10 +1,7 @@
-package com.study.ilmaz.patternmvp.hitmap.views;
+package ru.hitpoint.lib.hitpoint.heatmap;
 
 import android.view.MotionEvent;
 
-/**
- * Created by hlopu on 28.03.2018.
- */
 
 public class TouchInfo {
     private float x;

@@ -1,4 +1,4 @@
-package com.study.ilmaz.patternmvp.hitmap;
+package ru.hitpoint.lib.hitpoint;
 
 
 import android.app.Activity;
@@ -9,9 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.study.ilmaz.patternmvp.R;
-import com.study.ilmaz.patternmvp.hitmap.views.StopView;
-import com.study.ilmaz.patternmvp.hitmap.views.TouchDetectView;
+import ru.hitpoint.lib.hitpoint.heatmap.Painter;
+import ru.hitpoint.lib.hitpoint.heatmap.PainterInt;
+import ru.hitpoint.lib.hitpoint.views.StopView;
+import ru.hitpoint.lib.hitpoint.views.TouchDetectView;
 
 public class InstanceHolder {
     private static final InstanceHolder ourInstance = new InstanceHolder();
@@ -35,7 +36,11 @@ public class InstanceHolder {
         isFreeze = freeze;
     }
 
-    public Application.ActivityLifecycleCallbacks getLifecycleCallbacks() {
+    public void bindHitPoint(Application application, String token){
+        application.registerActivityLifecycleCallbacks(getLifecycleCallbacks());
+    }
+
+    private Application.ActivityLifecycleCallbacks getLifecycleCallbacks() {
         if (lifecycleCallbacks == null) {
             lifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
                 @Override
@@ -49,19 +54,19 @@ public class InstanceHolder {
 
                 @Override
                 public void onActivityResumed(Activity activity) {
-                    ViewGroup viewGroup = (ViewGroup) activity.getWindow().getDecorView();
-                    if (!(viewGroup.getChildAt(0) instanceof StopView)) {
+                    ViewGroup mainViewGroup = (ViewGroup) activity.getWindow().getDecorView();
+                    if (!(mainViewGroup.getChildAt(0) instanceof StopView)) {
                         FrameLayout stopView = new StopView(activity);
                         FrameLayout touchDetectView = new TouchDetectView(activity);
                         activity.getLayoutInflater().inflate(R.layout.floating_button, stopView);
 
                         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-                        View children = viewGroup.getChildAt(0);
-                        viewGroup.removeViewAt(0);
+                        View children = mainViewGroup.getChildAt(0);
+                        mainViewGroup.removeViewAt(0);
                         touchDetectView.addView(children, 0, layoutParams);
                         stopView.addView(touchDetectView, 1, layoutParams);
-                        viewGroup.addView(stopView, 0, children.getLayoutParams());
+                        mainViewGroup.addView(stopView, 0, children.getLayoutParams());
                     }
                 }
 

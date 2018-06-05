@@ -1,4 +1,4 @@
-package com.study.ilmaz.patternmvp.hitmap.animations;
+package ru.hitpoint.lib.hitpoint.animations;
 
 
 import android.support.v4.view.animation.FastOutSlowInInterpolator;

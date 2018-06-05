@@ -1,4 +1,4 @@
-package com.study.ilmaz.patternmvp.hitmap;
+package ru.hitpoint.lib.hitpoint.heatmap;
 
 import android.app.Activity;
 import android.view.MotionEvent;

@@ -1,4 +1,4 @@
-package com.study.ilmaz.patternmvp.hitmap.views;
+package ru.hitpoint.lib.hitpoint.views;
 
 
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 
-import com.study.ilmaz.patternmvp.hitmap.InstanceHolder;
+import ru.hitpoint.lib.hitpoint.InstanceHolder;
 
 import java.util.LinkedList;
 import java.util.List;

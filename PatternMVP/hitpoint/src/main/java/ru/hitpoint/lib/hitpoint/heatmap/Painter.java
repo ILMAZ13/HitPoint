@@ -1,4 +1,4 @@
-package com.study.ilmaz.patternmvp.hitmap;
+package ru.hitpoint.lib.hitpoint.heatmap;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -8,8 +8,6 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
-import com.study.ilmaz.patternmvp.hitmap.views.TouchInfo;
 
 import java.io.File;
 import java.io.FileOutputStream;

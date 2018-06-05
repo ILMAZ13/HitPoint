@@ -1,4 +1,4 @@
-package com.study.ilmaz.patternmvp.hitmap;
+package ru.hitpoint.lib.hitpoint;
 
 import android.Manifest;
 import android.app.Activity;

@@ -1,4 +1,4 @@
-package com.study.ilmaz.patternmvp.hitmap.views;
+package ru.hitpoint.lib.hitpoint.views;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -8,10 +8,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.study.ilmaz.patternmvp.R;
+import ru.hitpoint.lib.hitpoint.R;
 
 
 public class CommentaryDialogue extends Dialog implements
@@ -44,30 +43,27 @@ public class CommentaryDialogue extends Dialog implements
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.confirm:
+        int i = v.getId();
+        if (i == R.id.confirm) {
+            if (ratingBar.getRating() != 0.0) {
 
-                if (ratingBar.getRating() != 0.0) {
+                if (!editText.getText().toString().equals("")) {
 
-                    if (!editText.getText().toString().equals("")) {
-
-                        //ToDo: push comment and rating on server
-
-                    } else {
-                        Toast.makeText(mContext, "Оставьте свой комментарий, чтобы продолжить", Toast.LENGTH_SHORT).show();
-                    }
+                    //ToDo: push comment and rating on server
 
                 } else {
-                    Toast.makeText(mContext, "Поставьте свой рейтинг, чтобы продолжить", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Оставьте свой комментарий, чтобы продолжить", Toast.LENGTH_SHORT).show();
                 }
 
+            } else {
+                Toast.makeText(mContext, "Поставьте свой рейтинг, чтобы продолжить", Toast.LENGTH_SHORT).show();
+            }
 
-                break;
-            case R.id.cancel:
-                dismiss();
-                break;
-            default:
-                break;
+
+        } else if (i == R.id.cancel) {
+            dismiss();
+
+        } else {
         }
     }
 }

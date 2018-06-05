@@ -23,7 +23,7 @@ public class TouchDetectView extends FrameLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        Toast.makeText(getContext(), "Dispatch touch event", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "Dispatch touch event", Toast.LENGTH_SHORT).show();
         return super.dispatchTouchEvent(ev);
     }
 }

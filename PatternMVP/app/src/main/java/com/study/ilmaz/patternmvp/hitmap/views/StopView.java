@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 import com.study.ilmaz.patternmvp.hitmap.InstanceHolder;
@@ -41,6 +42,8 @@ public class StopView extends FrameLayout {
         InstanceHolder.getInstance().setFreeze(false);
         CommentaryDialogue commentaryDialogue = new CommentaryDialogue(getContext());
         commentaryDialogue.show();
+        Window window = commentaryDialogue.getWindow();
+        window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     }
 
     @Override

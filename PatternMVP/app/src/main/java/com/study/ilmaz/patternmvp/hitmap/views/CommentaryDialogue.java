@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RatingBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.study.ilmaz.patternmvp.R;
 
@@ -13,8 +17,10 @@ import com.study.ilmaz.patternmvp.R;
 public class CommentaryDialogue extends Dialog implements
         android.view.View.OnClickListener {
 
-    public Context mContext;
-    public Button yes, no;
+    private Context mContext;
+    private Button yes, no;
+    private RatingBar ratingBar;
+    private EditText editText;
 
     public CommentaryDialogue(Context activity) {
         super(activity);
@@ -24,9 +30,11 @@ public class CommentaryDialogue extends Dialog implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         requestWindowFeature(Window.FEATURE_SWIPE_TO_DISMISS);
         setContentView(R.layout.commentary);
+
+        editText = findViewById(R.id.input_comment);
+        ratingBar = findViewById(R.id.rating);
         yes = findViewById(R.id.confirm);
         no = findViewById(R.id.cancel);
         yes.setOnClickListener(this);
@@ -38,7 +46,22 @@ public class CommentaryDialogue extends Dialog implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.confirm:
-                dismiss();
+
+                if (ratingBar.getRating() != 0.0) {
+
+                    if (!editText.getText().toString().equals("")) {
+
+                        //ToDo: push comment and rating on server
+
+                    } else {
+                        Toast.makeText(mContext, "Оставьте свой комментарий, чтобы продолжить", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(mContext, "Поставьте свой рейтинг, чтобы продолжить", Toast.LENGTH_SHORT).show();
+                }
+
+
                 break;
             case R.id.cancel:
                 dismiss();
@@ -46,6 +69,5 @@ public class CommentaryDialogue extends Dialog implements
             default:
                 break;
         }
-        dismiss();
     }
 }

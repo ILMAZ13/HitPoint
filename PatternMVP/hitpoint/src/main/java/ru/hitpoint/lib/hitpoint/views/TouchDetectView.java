@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
-import ru.hitpoint.lib.hitpoint.InstanceHolder;
+import ru.hitpoint.lib.hitpoint.HitPoint;
 
 public class TouchDetectView extends FrameLayout {
     public TouchDetectView(@NonNull Context context) {
@@ -24,7 +24,7 @@ public class TouchDetectView extends FrameLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        InstanceHolder.getInstance().addTouch(ev);
+        HitPoint.getInstance().addTouch(ev);
         return super.dispatchTouchEvent(ev);
     }
 }

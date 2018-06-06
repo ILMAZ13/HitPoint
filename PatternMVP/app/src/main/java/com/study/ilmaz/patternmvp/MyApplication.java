@@ -3,7 +3,9 @@ package com.study.ilmaz.patternmvp;
 
 import android.app.Application;
 
-import ru.hitpoint.lib.hitpoint.InstanceHolder;
+import ru.hitpoint.lib.hitpoint.HitPoint;
+import ru.hitpoint.lib.hitpoint.heatmap.Painter;
+import ru.hitpoint.lib.hitpoint.views.FloatingViewConfigs;
 
 public class MyApplication extends Application {
 
@@ -16,7 +18,19 @@ public class MyApplication extends Application {
     }
 
     private void startButtonService() {
-        InstanceHolder.getInstance().bindHitPoint(this, "APP_TOKEN");
+        HitPoint.newBuilder()
+                .setFloatingViewConfigs(FloatingViewConfigs.newBuilder()
+                        .setUseGravity(false)
+                        .build()
+                )
+                .setPainter(Painter.newBuilder()
+                        .setPointWidth(10)
+                        .setBackgroundArgb(100, 0, 0, 0)
+                        .setPointArgb(50, 255, 0, 0)
+                        .build()
+                )
+                .build()
+                .bindHitPoint(this);
     }
 
 

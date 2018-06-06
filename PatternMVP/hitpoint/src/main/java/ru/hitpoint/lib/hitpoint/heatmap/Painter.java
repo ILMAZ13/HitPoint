@@ -21,7 +21,7 @@ public class Painter implements PainterInt {
     private Paint background;
     private boolean putNumbers = true;
 
-    public Painter() {
+    private Painter() {
         this.point = new Paint();
         this.background = new Paint();
         point.setARGB(50, 237, 126, 23);

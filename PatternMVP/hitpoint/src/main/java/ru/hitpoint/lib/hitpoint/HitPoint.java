@@ -3,13 +3,25 @@ package ru.hitpoint.lib.hitpoint;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import model.entities.HitPointAPI;
+import model.entities.ViewsBlock;
 import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,6 +36,7 @@ import ru.hitpoint.lib.hitpoint.views.StopView;
 import ru.hitpoint.lib.hitpoint.views.TouchDetectView;
 
 public class HitPoint {
+    public static final String API_KEY = "d3e6d3565cd14621a5aa317b5cc6ed64";
     private static HitPoint ourInstance;
     private Application.ActivityLifecycleCallbacks lifecycleCallbacks;
     private boolean isFreeze = false;
@@ -34,6 +47,7 @@ public class HitPoint {
     private boolean usePainter = true;
     private boolean useFloatingView = true;
     private String token;
+    private SharedPreferences preferences;
 
     public static HitPoint getInstance() {
         return ourInstance;
@@ -51,7 +65,15 @@ public class HitPoint {
         isFreeze = freeze;
     }
 
-    public void bindHitPoint(Application application){
+    public void bindHitPoint(Application application) {
+        preferences = application.getSharedPreferences("HitPoint", Context.MODE_PRIVATE);
+        String udid = preferences.getString("UDID", "");
+        if (udid.isEmpty()) {
+            udid = UUID.randomUUID().toString();
+            preferences.edit()
+                    .putString("UDID", udid)
+                    .apply();
+        }
         application.registerActivityLifecycleCallbacks(getLifecycleCallbacks());
     }
 
@@ -98,15 +120,24 @@ public class HitPoint {
                             painter.takeScreenshot(activity);
                         }
                     }
-                    apiService.doSmt().enqueue(new Callback<Request>() {
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    painter.takeScreenshot(activity).compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                    byte[] byteArray = byteArrayOutputStream.toByteArray();
+                    String encodedBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                    List<ViewsBlock> viewsBlocks = new ArrayList<>();
+                    apiService.report(new HitPointAPI(preferences.getString("UDID", ""), activity.getClass().getName(), "",
+                            "1.0", "", encodedBase64, "0",
+                            API_KEY, preferences.getString("UDID", ""),
+                            viewsBlocks)).enqueue(new Callback<Request>() {
                         @Override
                         public void onResponse(Call<Request> call, Response<Request> response) {
-                            //GOOD
+                            Log.d("REPORT", "SUCCES");
                         }
 
                         @Override
                         public void onFailure(Call<Request> call, Throwable t) {
-                            //BAD
+                            Log.d("REPORT", "FAILURE");
                         }
                     });
                 }
@@ -134,46 +165,46 @@ public class HitPoint {
         painter.dispatchTouchEvent(motionEvent);
     }
 
-    public static Builder newBuilder(){
+    public static Builder newBuilder() {
         return new HitPoint().new Builder();
     }
 
 
-    public class Builder{
+    public class Builder {
         private Builder() {
         }
 
-        public Builder setCustomPainter(PainterInt painter){
+        public Builder setCustomPainter(PainterInt painter) {
             HitPoint.this.painter = painter;
             return this;
         }
 
-        public Builder setPainter(Painter painter){
+        public Builder setPainter(Painter painter) {
             HitPoint.this.painter = painter;
             return this;
         }
 
-        public Builder setFloatingViewConfigs(FloatingViewConfigs configs){
+        public Builder setFloatingViewConfigs(FloatingViewConfigs configs) {
             HitPoint.this.floatingViewConfigs = configs;
             return this;
         }
 
-        public Builder setUseHeatMap(boolean useHeatMap){
+        public Builder setUseHeatMap(boolean useHeatMap) {
             HitPoint.this.usePainter = useHeatMap;
             return this;
         }
 
-        public Builder useFloatingView(boolean useFloatingView){
+        public Builder useFloatingView(boolean useFloatingView) {
             HitPoint.this.useFloatingView = useFloatingView;
             return this;
         }
 
-        public Builder setToken(String token){
+        public Builder setToken(String token) {
             HitPoint.this.token = token;
             return this;
         }
 
-        public HitPoint build(){
+        public HitPoint build() {
             ourInstance = HitPoint.this;
             return HitPoint.this;
         }

@@ -46,9 +46,10 @@ public class Painter implements PainterInt {
     }
 
     @Override
-    public void takeScreenshot(Activity activity) {
+    public Bitmap takeScreenshot(Activity activity) {
         Date now = new Date();
         android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+        Bitmap bitmap = null;
 
         try {
             // image naming and path  to include sd card  appending name you choose for file
@@ -58,7 +59,7 @@ public class Painter implements PainterInt {
             View v1 = activity.getWindow().getDecorView().getRootView();
 //            v1.layout(0, 0, v.getLayoutParams().width, v.getLayoutParams().height)
             v1.setDrawingCacheEnabled(true);
-            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+            bitmap = Bitmap.createBitmap(v1.getDrawingCache());
 //            Bitmap bitmap = Bitmap.createBitmap(v1.getLayoutParams().width , v1.getLayoutParams().height,
 //                    Bitmap.Config.ARGB_8888);
             v1.setDrawingCacheEnabled(false);
@@ -109,6 +110,7 @@ public class Painter implements PainterInt {
             // Several error may come out with file handling or DOM
             e.printStackTrace();
         }
+        return bitmap;
     }
 
     //    private void openScreenshot(File imageFile) {

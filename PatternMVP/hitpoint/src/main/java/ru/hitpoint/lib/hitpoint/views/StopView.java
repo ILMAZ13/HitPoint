@@ -45,7 +45,7 @@ public class StopView extends FrameLayout {
         List<String> ids = findViewsAt((ViewGroup) ((ViewGroup) this.getChildAt(0)).getChildAt(0), (int) ev.getX(), (int) ev.getY());
         Log.d("PATH", Arrays.toString(ids.toArray(new String[0])));
         HitPoint.getInstance().setFreeze(false);
-        CommentaryDialogue commentaryDialogue = new CommentaryDialogue(getContext());
+        CommentaryDialogue commentaryDialogue = new CommentaryDialogue(getContext(), Arrays.toString(ids.toArray(new String[0])));
         commentaryDialogue.show();
         Window window = commentaryDialogue.getWindow();
         window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);

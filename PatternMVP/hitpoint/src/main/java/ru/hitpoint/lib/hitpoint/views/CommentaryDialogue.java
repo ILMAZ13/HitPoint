@@ -2,6 +2,7 @@ package ru.hitpoint.lib.hitpoint.views;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -10,7 +11,19 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import model.entities.HitPointAPI;
+import model.entities.ViewsBlock;
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import ru.hitpoint.lib.hitpoint.HitPoint;
 import ru.hitpoint.lib.hitpoint.R;
+import ru.hitpoint.lib.hitpoint.network.ApiService;
+import ru.hitpoint.lib.hitpoint.network.NetServiceManager;
 
 
 public class CommentaryDialogue extends Dialog implements
@@ -20,10 +33,13 @@ public class CommentaryDialogue extends Dialog implements
     private Button yes, no;
     private RatingBar ratingBar;
     private EditText editText;
+    private ApiService apiService;
+    private String path;
 
-    public CommentaryDialogue(Context activity) {
+    public CommentaryDialogue(Context activity, String path) {
         super(activity);
         mContext = activity;
+        this.path = path;
     }
 
     @Override
@@ -48,9 +64,26 @@ public class CommentaryDialogue extends Dialog implements
             if (ratingBar.getRating() != 0.0) {
 
                 if (!editText.getText().toString().equals("")) {
+                    SharedPreferences preferences = mContext.getApplicationContext().getSharedPreferences("HitPoint", Context.MODE_PRIVATE);
 
-                    //ToDo: push comment and rating on server
+                    apiService = new NetServiceManager().getApiService();
+                    List<ViewsBlock> viewsBlocks = new ArrayList<>();
+                    apiService.report(new HitPointAPI(preferences.getString("UDID", ""),
+                            getWindow().getClass().getName(),
+                            editText.getText().toString(), "1.0", path, "",
+                            String.valueOf(ratingBar.getRating()), HitPoint.API_KEY, getWindow().getClass().getName(),
+                            viewsBlocks)).enqueue(new Callback<Request>() {
+                        @Override
+                        public void onResponse(Call<Request> call, Response<Request> response) {
+                            Toast.makeText(mContext, "Отзыв успешно добавлен!", Toast.LENGTH_SHORT).show();
+                        }
 
+                        @Override
+                        public void onFailure(Call<Request> call, Throwable t) {
+                            Toast.makeText(mContext, "Не удалось добавить!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    dismiss();
                 } else {
                     Toast.makeText(mContext, "Оставьте свой комментарий, чтобы продолжить", Toast.LENGTH_SHORT).show();
                 }
@@ -62,7 +95,6 @@ public class CommentaryDialogue extends Dialog implements
 
         } else if (i == R.id.cancel) {
             dismiss();
-
         } else {
         }
     }

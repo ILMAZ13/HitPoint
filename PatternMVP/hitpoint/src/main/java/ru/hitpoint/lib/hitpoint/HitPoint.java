@@ -10,8 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.hitpoint.lib.hitpoint.heatmap.Painter;
 import ru.hitpoint.lib.hitpoint.heatmap.PainterInt;
+import ru.hitpoint.lib.hitpoint.network.ApiService;
+import ru.hitpoint.lib.hitpoint.network.NetServiceManager;
 import ru.hitpoint.lib.hitpoint.views.FloatingView;
 import ru.hitpoint.lib.hitpoint.views.FloatingViewConfigs;
 import ru.hitpoint.lib.hitpoint.views.StopView;
@@ -21,6 +27,7 @@ public class HitPoint {
     private static HitPoint ourInstance;
     private Application.ActivityLifecycleCallbacks lifecycleCallbacks;
     private boolean isFreeze = false;
+    private ApiService apiService;
 
     private FloatingViewConfigs floatingViewConfigs = FloatingViewConfigs.newBuilder().build();
     private PainterInt painter = Painter.newBuilder().build();
@@ -33,6 +40,7 @@ public class HitPoint {
     }
 
     private HitPoint() {
+        apiService = new NetServiceManager().getApiService();
     }
 
     public boolean isFreeze() {
@@ -90,6 +98,17 @@ public class HitPoint {
                             painter.takeScreenshot(activity);
                         }
                     }
+                    apiService.doSmt().enqueue(new Callback<Request>() {
+                        @Override
+                        public void onResponse(Call<Request> call, Response<Request> response) {
+                            //GOOD
+                        }
+
+                        @Override
+                        public void onFailure(Call<Request> call, Throwable t) {
+                            //BAD
+                        }
+                    });
                 }
 
                 @Override

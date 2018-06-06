@@ -35,11 +35,13 @@ public class CommentaryDialogue extends Dialog implements
     private EditText editText;
     private ApiService apiService;
     private String path;
+    private int dialogueColor;
 
-    public CommentaryDialogue(Context activity, String path) {
+    public CommentaryDialogue(Context activity, String path, int dialogueColor) {
         super(activity);
         mContext = activity;
         this.path = path;
+        this.dialogueColor = dialogueColor;
     }
 
     @Override
@@ -48,6 +50,7 @@ public class CommentaryDialogue extends Dialog implements
         requestWindowFeature(Window.FEATURE_SWIPE_TO_DISMISS);
         setContentView(R.layout.commentary);
 
+        findViewById(R.id.main).setBackgroundColor(dialogueColor);
         editText = findViewById(R.id.input_comment);
         ratingBar = findViewById(R.id.rating);
         yes = findViewById(R.id.confirm);

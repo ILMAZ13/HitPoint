@@ -29,6 +29,7 @@ public class MyApplication extends Application {
                         .setPointArgb(50, 255, 0, 0)
                         .build()
                 )
+                .setCommentaryDialogueColor(255, 255, 0, 0)
                 .build()
                 .bindHitPoint(this);
     }

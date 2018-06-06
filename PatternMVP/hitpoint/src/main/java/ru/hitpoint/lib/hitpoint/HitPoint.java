@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -47,6 +48,8 @@ public class HitPoint {
     private boolean usePainter = true;
     private boolean useFloatingView = true;
     private String token;
+    private int dialogueColor = Color.argb(255, 102, 158, 58);
+
     private SharedPreferences preferences;
 
     public static HitPoint getInstance() {
@@ -93,7 +96,7 @@ public class HitPoint {
                 public void onActivityResumed(Activity activity) {
                     ViewGroup mainViewGroup = (ViewGroup) activity.getWindow().getDecorView();
                     if (!(mainViewGroup.getChildAt(0) instanceof StopView)) {
-                        FrameLayout stopView = new StopView(activity);
+                        FrameLayout stopView = new StopView(activity, dialogueColor);
                         FrameLayout touchDetectView = new TouchDetectView(activity);
 
                         FrameLayout.LayoutParams matchParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -201,6 +204,11 @@ public class HitPoint {
 
         public Builder setToken(String token) {
             HitPoint.this.token = token;
+            return this;
+        }
+
+        public Builder setCommentaryDialogueColor(int alpha, int r, int g, int b) {
+            HitPoint.this.dialogueColor = Color.argb(alpha, r, g, b);
             return this;
         }
 
